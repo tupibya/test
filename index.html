@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0d47a1" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>tupibya test</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    #installBtn{padding:10px 16px;border-radius:6px;background:#0d47a1;color:#fff;border:none;cursor:pointer}
+  </style>
+</head>
+<body>
+  <button id="installBtn" style="display:none">インストール</button>
+
+  <script>
+    // Service Worker 登録
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(console.error);
+    }
+
+    // beforeinstallprompt をキャッチしてカスタムボタンで表示
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'inline-block';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice.outcome === 'accepted') {
+        console.log('ユーザーがインストールを承認しました');
+      } else {
+        console.log('ユーザーがインストールを拒否しました');
+      }
+      deferredPrompt = null;
+      installBtn.style.display = 'none';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+      console.log('アプリがインストールされました');
+    });
+  </script>
+</body>
+</html>
