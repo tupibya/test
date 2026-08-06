@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 質問・相談はこちら
+    url: https://example.com/contact
+    about: バグ報告以外の問い合わせはこちらへ
