@@ -1,5 +1,6 @@
 {
   "name": "Testing PWA",
+  "description": "初めてPWA出来たのでテストをしています。\nインストールはしないで下さい。\nしてもいいよ
   "short_name": "Testing",
   "start_url": "/testing/",
   "scope": "/testing/",
